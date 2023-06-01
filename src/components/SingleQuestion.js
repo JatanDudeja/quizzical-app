@@ -1,14 +1,14 @@
 import React from 'react';
 
 export default function SingleQuestion(props){
-    let styles = {}
+    // let styles = {}
 
-    if(props.selectedAnswer == ""){
-        styles = {'border': '0.79px solid #4D5B9E', 'border-radius': '7.71045px', 'background' : "#F5F7FB"}
-    }
-    else{
-        styles = {'background' : '#D6DBF5', 'border-radius': '7.71045px'}
-    }
+    // if(props.selectedAnswer == ""){
+    //     styles = {'border': '0.79px solid #4D5B9E', 'border-radius': '7.71045px', 'background' : "#F5F7FB"}
+    // }
+    // else{
+    //     styles = {'background' : '#D6DBF5', 'border-radius': '7.71045px'}
+    // }
 
 
     const options = props.options.map(function(option, index){
