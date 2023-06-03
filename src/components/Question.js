@@ -120,6 +120,17 @@ export default function Question() {
         )
     })
 
+    function playAgain(){
+        setQuestions([])
+        setQuestionAndAnswers([])
+        setSubmitted(false)
+        setSubmitPara(false)
+        setCheckAnswers(0)
+
+
+
+    }
+
 
     return (
         <div className='main-question-container'>
@@ -129,7 +140,10 @@ export default function Question() {
 
             <p className='submitButtonParaTag'>
                 {submitted ? (submitPara ? <span className='submitPara'>{`You have got ${checkAnswers} / 5 correct answers.`}</span> : <span className='submitPara'>Please select the answers to all the questions!</span>) : ""}
-                <button onClick={submit} className='submitQuizButton'>Submit Quiz</button>
+                
+                {submitted && submitPara ? <button onClick={playAgain} className='submitQuizButton'>Play Again?</button> : <button onClick={submit} className='submitQuizButton'>Check Answers</button>}
+                
+                {/* <button onClick={submit} className='submitQuizButton'>Submit Quiz</button> */}
             </p>
         </div>
 
