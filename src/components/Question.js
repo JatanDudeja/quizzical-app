@@ -3,6 +3,7 @@ import Data from '../Data'
 import SingleQuestion from './SingleQuestion'
 
 export default function Question() {
+    //stores all the questions
     const [questions, setQuestions] = React.useState([])
 
 
@@ -17,15 +18,26 @@ export default function Question() {
     const [checkAnswers, setCheckAnswers] = React.useState(0)
 
     React.useEffect(function () {
-        setQuestions(Data.map(function (ques) {
-            return {
-                questio: ques.question,
-                correctAns: ques.correct_answer,
-                optionsArray: shuffleArray([...ques.incorrect_answers, ques.correct_answer]),
-                selectedAns: "",
-            }
-        }))
-    }, [])
+
+        if(questions.length === 0){
+            fetch("https://opentdb.com/api.php?amount=5&difficulty=easy")
+
+            .then((response) => response.json())
+
+            .then((data) => {
+                setQuestions(data.results);
+
+                setQuestionAndAnswers(data.results.map(function (ques) {
+                    return {
+                        questio: ques.question,
+                        correctAns: ques.correct_answer,
+                        optionsArray: shuffleArray([...ques.incorrect_answers, ques.correct_answer]),
+                        selectedAns: "",
+                    }
+                }))
+            })
+        }
+    }, [questions])
 
 
     // shuffling of options array
@@ -45,7 +57,7 @@ export default function Question() {
 
         // console.log(question + " " + answer);
 
-        setQuestions((questionsObject) => {
+        setQuestionAndAnswers((questionsObject) => {
             return questionsObject.map((element) => {
                 return (
                     element.questio == question ? { ...element, selectedAns: answer } : element
@@ -60,13 +72,13 @@ export default function Question() {
 
     function submit() {
         let check = true;
-        for (let i = 0; i < questions.length; i++) {
-            if (questions[i].selectedAns == "") {
+        for (let i = 0; i < questionAndAnswers.length; i++) {
+            if (questionAndAnswers[i].selectedAns == "") {
                 check = false;
                 break;
             }
 
-            if (questions[i].selectedAns == questions[i].correctAns) {
+            if (questionAndAnswers[i].selectedAns == questionAndAnswers[i].correctAns) {
                 setCheckAnswers((prevCheckAnswer) => {
                     return prevCheckAnswer + 1
                 })
@@ -92,7 +104,7 @@ export default function Question() {
 
 
 
-    const questionMapped = questions.map(function (ques, index) {
+    const questionMapped = questionAndAnswers.map(function (ques, index) {
         return (
             <SingleQuestion
                 key={index}
